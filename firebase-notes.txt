@@ -1,0 +1,24 @@
+import { initializeApp } from 'firebase/app';
+const firebaseConfig = {
+  apiKey,
+  authDomain,
+  projectId,
+  storageBucket,
+  messagingSenderId,
+  appId,
+  maybe other config options?
+}
+
+const app = initializeApp(firebaseConfig);
+
+// import packages to use as services in firebase => supposed to be faster.
+i.e. import { firebaseService } from 'firebase/<service>';
+
+vite uses esBuild to compile to browser so should be fine with firebase.
+
+setup password validation i.e. test against a regex expression using regex.test(password);
+
+update all firebase methods to module versions i.e. dot notation to functions:
+
+auth.onAuthStateChanged(user => { ... }) <=> onAuthStateChanged(auth, (user) => { ... })
+auth.createUserWithEmailAndPassword(email, password) <=> createUserWithEmailAndPassword(auth, email, password)
