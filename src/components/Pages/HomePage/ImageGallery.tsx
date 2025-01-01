@@ -1,5 +1,6 @@
 import { useCart } from "../../../context/AppContext"
 import { useState } from 'react'
+
 const IMAGE_COUNT = 4
 
 const ImageGallery = () => {

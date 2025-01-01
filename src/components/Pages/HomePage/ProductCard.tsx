@@ -4,12 +4,13 @@ import { useCart } from "../../../context/AppContext";
 import WishListBtn from "../WishList/WishListBtn";
 import AddToCartBtn from "../Buttons/AddToCartBtn";
 import { ProductItem as ProductCardProps } from "../../../Types/Types";
+import { formatRatings } from "../../../utilities/formatRatings";
 
 const ProductCard = (product: ProductCardProps) => {
 
   const { id, title, price, description, image, rating } = product;
   
-  const { formatRatings, addToWishList } = useCart()
+  const { addToWishList } = useCart()
 
   const { rate } = rating;
   const ratingsArray = formatRatings(rating.rate);

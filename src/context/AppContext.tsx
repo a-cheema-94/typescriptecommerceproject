@@ -4,6 +4,7 @@ import {
   useEffect,
   createContext,
   useContext,
+  useRef,
 } from "react";
 import { auth } from "../firebase/firebase";
 import useLocalStorage from "../hooks/useLocalStorage";
@@ -31,8 +32,7 @@ type AppContextTypes = {
   categories: string[];
   filterByCategory: (category: string) => void;
   resetCategories: () => void;
-  isPressed: string;
-  formatRatings: (rating: number) => number[];
+  categoryPressed: string;
   wishlist: ProductItem[];
   addToWishList: (product: ProductItem) => void;
   getProductQuantity: (id: number) => number;
@@ -70,17 +70,23 @@ export const useCart = () => {
 
 export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   // STATE
+  // todo => examine the state and see if can be improved logically.
   const [initialProducts, setInitialProducts] = useState<ProductItem[]>([]);
   const [products, setProducts] = useState<ProductItem[]>([]);
   const [categories, setCategories] = useState([]);
-  const [isPressed, setIsPressed] = useState("");
-  const [wishlist, setWishlist] = useState<ProductItem[]>([]);
+  const [categoryPressed, setCategoryPressed] = useState("");
+
+  const [wishlist, setWishlist] = useLocalStorage<ProductItem[]>(
+    [],
+    "wishlist"
+  );
   const [cartProducts, setCartProducts] = useLocalStorage<CartItem[]>(
     [],
     "cartProducts"
   );
   const [orders, setOrders] = useLocalStorage<OrderItem[]>([], "orders");
   // authentication state variables
+
   const [loggedInUser, setLoggedInUser] =
     useState<firebase.default.User | null>(null);
   // loggedInUser is set to null when no user is signed in.
@@ -90,29 +96,42 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
 
   // Fetch requests
 
+  // ref used to guard against api calling when component unmounts.
+  // E.g. when api may be slow and component unmounts before fetch call finishes.
+
+  let isMounted = useRef(true);
+
   // categories
   useEffect(() => {
     const fetchCategories = async () => {
+      console.log("fetched categories");
       const categoryRes = await fetch(
         "https://fakestoreapi.com/products/categories"
       );
       const categoryData = await categoryRes.json();
       setCategories(categoryData);
     };
-
-    fetchCategories();
+    if (isMounted.current) fetchCategories();
+    return () => {
+      isMounted.current = false;
+    };
   }, []);
 
   // products
   useEffect(() => {
     async function fetchProducts() {
+      console.log("fetched products");
       const productRes = await fetch("https://fakestoreapi.com/products");
       const productData = await productRes.json();
       setProducts(productData);
       setInitialProducts(productData);
     }
 
-    fetchProducts();
+    if ((isMounted.current = true)) fetchProducts();
+
+    return () => {
+      isMounted.current = false;
+    };
   }, []);
 
   // authentication
@@ -133,25 +152,13 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     const newProducts = initialProducts.filter(
       (product) => product.category === category
     );
-    setIsPressed(category);
+    setCategoryPressed(category);
     setProducts(newProducts);
   };
 
   const resetCategories = () => {
-    setIsPressed("All");
+    setCategoryPressed("All");
     setProducts(initialProducts);
-  };
-
-  const formatRatings = (rating: number) => {
-    const ratingsArr = Array(5).fill(false);
-    let idx = 0;
-    let length = Math.floor(rating);
-    while (length > 0) {
-      ratingsArr[idx] = true;
-      idx++;
-      length--;
-    }
-    return ratingsArr;
   };
 
   const addToWishList = (product: ProductItem) => {
@@ -280,8 +287,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
         categories,
         filterByCategory,
         resetCategories,
-        isPressed,
-        formatRatings,
+        categoryPressed,
         wishlist,
         addToWishList,
         // cart

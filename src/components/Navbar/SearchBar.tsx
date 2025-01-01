@@ -2,6 +2,7 @@ import { KeyboardEvent, useState } from "react";
 import { useCart } from "../../context/AppContext"
 import { Link, useNavigate } from "react-router-dom";
 import SearchBtn from "./SearchBtn";
+import { formatRatings } from "../../utilities/formatRatings";
 
 type RatingType = {
   rate: number
@@ -21,7 +22,7 @@ type FilteredProductProps = {
 
 
 const SearchBar = () => {
-  const { products, formatRatings } = useCart();
+  const { products } = useCart();
   const [query, setQuery] = useState('');
   const navigate = useNavigate();
 
