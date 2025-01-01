@@ -40,9 +40,6 @@ type AppContextTypes = {
   decreaseProductQuantity: (id: number) => void;
   removeProductsFromCart: (id: number) => void;
   cartProducts: CartItem[];
-  cartWidth: string;
-  openCart: () => void;
-  closeCart: () => void;
   initialProducts: ProductItem[];
   getSubTotal: () => number;
   completeOrder: () => void;
@@ -82,7 +79,6 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     [],
     "cartProducts"
   );
-  const [cartWidth, setCartWidth] = useState("w-0");
   const [orders, setOrders] = useLocalStorage<OrderItem[]>([], "orders");
   // authentication state variables
   const [loggedInUser, setLoggedInUser] =
@@ -131,16 +127,6 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   }, []);
 
   // FUNCTIONS
-
-  // cart sidebar functions
-  const openCart = () => {
-    setCartWidth(
-      "lg:w-1/4 md:w-1/3 w-1/2 border-l-2 border-t-2 rounded border-orange-500"
-    );
-  };
-  const closeCart = () => {
-    setCartWidth("w-0 border-none");
-  };
 
   // categories
   const filterByCategory = (category: string) => {
@@ -304,9 +290,6 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
         decreaseProductQuantity,
         removeProductsFromCart,
         cartProducts,
-        cartWidth,
-        openCart,
-        closeCart,
         initialProducts,
         getSubTotal,
         // orders
