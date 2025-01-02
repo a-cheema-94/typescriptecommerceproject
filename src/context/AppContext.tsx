@@ -5,6 +5,7 @@ import {
   createContext,
   useContext,
   useRef,
+  MutableRefObject,
 } from "react";
 import { auth } from "../firebase/firebase";
 import useLocalStorage from "../hooks/useLocalStorage";
@@ -40,13 +41,12 @@ type AppContextTypes = {
   decreaseProductQuantity: (id: number) => void;
   removeProductsFromCart: (id: number) => void;
   cartProducts: CartItem[];
-  initialProducts: ProductItem[];
+  initialProducts: MutableRefObject<ProductItem[]>;
   getSubTotal: () => number;
   completeOrder: () => void;
   orders: OrderItem[];
   clearOrders: () => void;
   loggedInUser: firebase.default.User | null;
-  loading: boolean;
   signUp: (
     email: string,
     password: string
@@ -70,10 +70,7 @@ export const useCart = () => {
 
 export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   // STATE
-  // todo => examine the state and see if can be improved logically.
-  const [initialProducts, setInitialProducts] = useState<ProductItem[]>([]);
   const [products, setProducts] = useState<ProductItem[]>([]);
-  const [categories, setCategories] = useState([]);
   const [categoryPressed, setCategoryPressed] = useState("");
 
   const [wishlist, setWishlist] = useLocalStorage<ProductItem[]>(
@@ -90,56 +87,56 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   const [loggedInUser, setLoggedInUser] =
     useState<firebase.default.User | null>(null);
   // loggedInUser is set to null when no user is signed in.
-  const [loading, setLoading] = useState(true);
+  const [productsLoading, setProductsLoading] = useState(false);
+  // todo => determine whether API is slow and use productsLoading as UI loading state.
+  
+  // REFS
+  let isMounted = useRef(true);
+  // isMounted ref used to guard against api calling when component unmounts.
+  // E.g. when api may be slow and component unmounts before fetch call finishes.
+  let initialProducts = useRef([] as ProductItem[]);
+  // ref used to store all of the product data in initial form.
 
   // USE EFFECTS
 
   // Fetch requests
 
-  // ref used to guard against api calling when component unmounts.
-  // E.g. when api may be slow and component unmounts before fetch call finishes.
-
-  let isMounted = useRef(true);
-
-  // categories
-  useEffect(() => {
-    const fetchCategories = async () => {
-      console.log("fetched categories");
-      const categoryRes = await fetch(
-        "https://fakestoreapi.com/products/categories"
-      );
-      const categoryData = await categoryRes.json();
-      setCategories(categoryData);
-    };
-    if (isMounted.current) fetchCategories();
-    return () => {
-      isMounted.current = false;
-    };
-  }, []);
-
+  // todo => try and optimize fetching logic => should move this to a custom hook? should use external library e.g. useQuery?
   // products
   useEffect(() => {
     async function fetchProducts() {
-      console.log("fetched products");
-      const productRes = await fetch("https://fakestoreapi.com/products");
-      const productData = await productRes.json();
-      setProducts(productData);
-      setInitialProducts(productData);
+      setProductsLoading(true);
+      try {
+        const productRes = await fetch("https://fakestoreapi.com/products");
+        console.log("fetched products");
+        const productData = await productRes.json();
+        setProducts(productData);
+        initialProducts.current = productData;
+      } catch (error) {
+        console.error("An error occurred fetching products from fakestoreapi: ", error);
+      } finally {
+        setProductsLoading(false);
+      }
     }
 
-    if ((isMounted.current = true)) fetchProducts();
+    if ((isMounted.current && initialProducts.current.length === 0)) fetchProducts();
 
     return () => {
       isMounted.current = false;
     };
   }, []);
 
-  // authentication
+  // categories
+  const categories = Array.from(
+    new Set(initialProducts.current.map((product) => product.category))
+  );
+
   useEffect(() => {
+    // authentication
     // when mounting the component we set the user:
     const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
       setLoggedInUser(firebaseUser);
-      setLoading(false);
+      // setLoading(false);
     });
 
     return unsubscribe;
@@ -149,7 +146,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
 
   // categories
   const filterByCategory = (category: string) => {
-    const newProducts = initialProducts.filter(
+    const newProducts = initialProducts.current.filter(
       (product) => product.category === category
     );
     setCategoryPressed(category);
@@ -158,7 +155,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
 
   const resetCategories = () => {
     setCategoryPressed("All");
-    setProducts(initialProducts);
+    setProducts(initialProducts.current);
   };
 
   const addToWishList = (product: ProductItem) => {
@@ -217,7 +214,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     let pricesArr: number[] = [];
     cartProducts.map((product, index) => {
       const price =
-        (initialProducts.find((item) => item.id === product.id)?.price || 0) *
+        (initialProducts.current.find((item) => item.id === product.id)?.price || 0) *
         product.quantity;
       pricesArr[index] = price;
     });
@@ -304,7 +301,6 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
         clearOrders,
         // authentication
         loggedInUser,
-        loading,
         signUp,
         login,
         logOut,

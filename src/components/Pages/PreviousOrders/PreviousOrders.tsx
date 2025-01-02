@@ -32,7 +32,7 @@ const PreviousOrders = () => {
           <p className="ml-3 mt-3 text-xl dark:text-white">No previous orders to show</p> : 
           
           orders.map((order, index) => {
-          const item = initialProducts.find(item => item.id === order.id);
+          const item = initialProducts.current.find(item => item.id === order.id);
           if(item == null) return null;
           const { title, price, image, category } = item;
 

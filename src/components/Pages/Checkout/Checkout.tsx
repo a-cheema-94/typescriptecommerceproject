@@ -42,7 +42,7 @@ const Checkout = () => {
 
       <div className="self-center checkout-item flex flex-wrap justify-center gap-5 ml-2 ">
         {!isCartEmpty ? cartProducts.map((item, id) => {
-          const title = initialProducts.find(product => product.id === item.id)?.title;
+          const title = initialProducts.current.find(product => product.id === item.id)?.title;
 
           return (
             
