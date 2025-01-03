@@ -60,6 +60,7 @@ type AppContextTypes = {
   updatePassword: (password: string) => Promise<void> | undefined;
   signOut: () => Promise<void>;
   deleteUser: () => Promise<void> | undefined;
+  productsLoading: boolean
 };
 
 const AppContext = createContext({} as AppContextTypes);
@@ -88,7 +89,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     useState<firebase.default.User | null>(null);
   // loggedInUser is set to null when no user is signed in.
   const [productsLoading, setProductsLoading] = useState(false);
-  // todo => determine whether API is slow and use productsLoading as UI loading state.
+  // todo => Use productsLoading as UI loading state.
   
   // REFS
   let isMounted = useRef(true);
@@ -101,19 +102,41 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
 
   // Fetch requests
 
-  // todo => try and optimize fetching logic => should move this to a custom hook? should use external library e.g. useQuery?
   // products
+
+  // todo => refactor initial editProducts function and simplify logic structure
+  // todo => determine whether to use custom hook, keep useEffect in AppContext or use useQuery.
+
+  const editProducts = (products: any) => {
+    const electronicsFilteredData = products.filter(product => product.category.name === 'Electronics')
+    const furnitureFilteredData = products.filter(product => product.category.name === 'Furniture')
+    const shoesFilteredData = products.filter(product => product.category.name === 'Shoes')
+    const miscellaneousFilteredData = products.filter(product => product.category.name === 'Miscellaneous')
+
+    const finalProducts = [...electronicsFilteredData, ...furnitureFilteredData, ...shoesFilteredData, ...miscellaneousFilteredData ];
+
+    return finalProducts.map(product => ({
+      image: product.images[0],
+      category: product.category.name,
+      rating: {
+        rate: 3.5,
+        count: 3,
+      },
+      ...product
+    }));
+  }
+
   useEffect(() => {
     async function fetchProducts() {
       setProductsLoading(true);
       try {
-        const productRes = await fetch("https://fakestoreapi.com/products");
+        const productRes = await fetch("https://api.escuelajs.co/api/v1/products");
         console.log("fetched products");
         const productData = await productRes.json();
-        setProducts(productData);
-        initialProducts.current = productData;
+        initialProducts.current = editProducts(productData);
+        setProducts(initialProducts.current);
       } catch (error) {
-        console.error("An error occurred fetching products from fakestoreapi: ", error);
+        console.error("An error occurred fetching products from platzi fake store api: ", error);
       } finally {
         setProductsLoading(false);
       }
@@ -128,7 +151,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
 
   // categories
   const categories = Array.from(
-    new Set(initialProducts.current.map((product) => product.category))
+    new Set(initialProducts.current.map((product) => product.category.name))
   );
 
   useEffect(() => {
@@ -147,7 +170,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   // categories
   const filterByCategory = (category: string) => {
     const newProducts = initialProducts.current.filter(
-      (product) => product.category === category
+      (product) => product.category.name === category
     );
     setCategoryPressed(category);
     setProducts(newProducts);
@@ -308,6 +331,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
         updatePassword,
         signOut,
         deleteUser,
+        productsLoading
       }}
     >
       {children}

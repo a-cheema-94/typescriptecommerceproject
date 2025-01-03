@@ -24,7 +24,7 @@ function App() {
         <div className="overflow-x-hidden">
 
         <Navbar />
-        <CategoriesBar />
+      <CategoriesBar />
         <Routes>
           <Route path="/" element={<HomePage />}/>
           <Route path="/productPage" element={<ProductFullPage />}/>
