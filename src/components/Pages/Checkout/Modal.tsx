@@ -1,20 +1,20 @@
-import { useNavigate } from "react-router-dom"
-import { useCart } from "../../../context/AppContext";
+import { useNavigate } from "react-router-dom";
+import { useShop } from "../../../context/AppContext";
 
 type ModalPropTypes = {
-  open: boolean
-  close: () => void
-}
+  open: boolean;
+  close: () => void;
+};
 
 const Modal = ({ open, close }: ModalPropTypes) => {
-  if(!open) return null
+  if (!open) return null;
   const navigate = useNavigate();
-  const { completeOrder } = useCart();
+  const { completeOrder } = useShop();
 
   const handleConfirmPurchase = () => {
-    navigate('/previousOrders');
+    navigate("/previousOrders");
     completeOrder();
-  }
+  };
   return (
     <>
       <div className="fixed top-0 bottom-0 right-0 left-0 bg-black bg-opacity-30 dark:bg-opacity-50"></div>
@@ -27,7 +27,7 @@ const Modal = ({ open, close }: ModalPropTypes) => {
           >
             Buy
           </button>
-          <button 
+          <button
             onClick={close}
             className="w-24 bg-orange-500 hover:bg-orange-700 rounded p-3 font-semibold text-white cursor-pointer select-none"
           >
@@ -36,7 +36,7 @@ const Modal = ({ open, close }: ModalPropTypes) => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Modal
+export default Modal;

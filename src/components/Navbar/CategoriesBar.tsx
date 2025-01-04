@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useCart } from "../../context/AppContext";
+import { useShop } from "../../context/AppContext";
 import WishListBtn from "../Pages/WishList/WishListBtn";
 
 const CategoriesBar = () => {
@@ -9,7 +9,7 @@ const CategoriesBar = () => {
     resetCategories,
     categoryPressed,
     loggedInUser,
-  } = useCart();
+  } = useShop();
   const navigate = useNavigate();
 
   // first letter capital

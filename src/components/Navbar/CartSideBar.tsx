@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useCart } from "../../context/AppContext";
+import { useShop } from "../../context/AppContext";
 import CartItem from "./CartItem";
 import { formatCurrency } from "../../utilities/formatCurrency";
 
@@ -9,7 +9,7 @@ type CartSideBarProps = {
 };
 
 const CartSideBar = ({ cartWidth, closeCart }: CartSideBarProps) => {
-  const { cartProducts, getSubTotal } = useCart();
+  const { cartProducts, getSubTotal } = useShop();
   const navigate = useNavigate();
 
   const handleCloseCart = () => {

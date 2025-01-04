@@ -1,10 +1,10 @@
 import { useLocation } from "react-router-dom";
-import { useCart } from "../../../context/AppContext";
+import { useShop } from "../../../context/AppContext";
 import ProductCard from "../HomePage/ProductCard";
 import BackBtn from "../Buttons/BackBtn";
 
 const WishList_SearchResults = () => {
-  const { wishlist } = useCart();
+  const { wishlist } = useShop();
 
   const { state } = useLocation();
   let filteredProducts = [];
