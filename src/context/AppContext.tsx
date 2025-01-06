@@ -1,23 +1,20 @@
 import {
   ReactNode,
-  useState,
-  useEffect,
   createContext,
   useContext,
-  useRef,
-  MutableRefObject,
 } from "react";
-import { auth } from "../firebase/firebase";
 import {
   AppContextTypes,
-  CartItem,
-  OrderItem,
-  ProductItem,
 } from "../Types/Types";
 import useProducts from "../hooks/useProducts";
-import useLocalStorage from "../hooks/useLocalStorage";
 import useCategories from "../hooks/useCategories";
 import useCartFunctions from "../hooks/useCartFunctions";
+import useAuth from "../hooks/useAuth";
+import useOrders from "../hooks/useOrders";
+import useWishlist from "../hooks/useWishlist";
+
+// todo => Use productsLoading as UI loading state => create loading state components i.e. spinners and pulse components.
+// todo => image loading state & image component see football app.
 
 // Types
 type AppContextProviderProps = {
@@ -31,11 +28,14 @@ export const useShop = () => {
 };
 
 export const AppContextProvider = ({ children }: AppContextProviderProps) => {
-  // STATE
+  // Context state and functions
+
   const { initialProducts, products, productsLoading, setProducts } =
     useProducts();
+
   const { categories, categoryPressed, filterByCategory, resetCategories } =
     useCategories(initialProducts, setProducts);
+
   const {
     cartProducts,
     decreaseProductQuantity,
@@ -46,97 +46,24 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     setCartProducts,
   } = useCartFunctions(initialProducts);
 
-  // todo => useAuth, useOrders, useWishlist
+  const {
+    loggedInUser,
+    signUp,
+    login,
+    logOut,
+    resetPassword,
+    updatePassword,
+    signOut,
+    deleteUser,
+  } = useAuth();
 
-  const [wishlist, setWishlist] = useLocalStorage<ProductItem[]>(
-    [],
-    "wishlist"
+  const { clearOrders, completeOrder, orders } = useOrders(
+    loggedInUser,
+    cartProducts,
+    setCartProducts
   );
-  const [orders, setOrders] = useLocalStorage<OrderItem[]>([], "orders");
-  // authentication state variables
 
-  const [loggedInUser, setLoggedInUser] =
-    useState<firebase.default.User | null>(null);
-  // loggedInUser is set to null when no user is signed in.
-  // todo => Use productsLoading as UI loading state.
-  // todo => image loading state
-
-  // authentication
-  useEffect(() => {
-    // when mounting the component we set the user:
-    const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
-      setLoggedInUser(firebaseUser);
-      // setLoading(false);
-    });
-
-    return unsubscribe;
-  }, []);
-
-  // authentication functions
-
-  const signUp = (
-    email: string,
-    password: string
-  ): Promise<firebase.default.auth.UserCredential> =>
-    auth.createUserWithEmailAndPassword(email, password);
-
-  const login = (
-    email: string,
-    password: string
-  ): Promise<firebase.default.auth.UserCredential> =>
-    auth.signInWithEmailAndPassword(email, password);
-
-  const logOut = (): Promise<void> => auth.signOut();
-
-  const resetPassword = (email: string): Promise<void> =>
-    auth.sendPasswordResetEmail(email);
-
-  const updatePassword = (password: string): Promise<void> | undefined =>
-    loggedInUser?.updatePassword(password);
-
-  const signOut = (): Promise<void> => auth.signOut();
-
-  const deleteUser = (): Promise<void> | undefined =>
-    auth.currentUser?.delete();
-
-  const addToWishList = (product: ProductItem) => {
-    setWishlist((prevWishList) => {
-      let newWishList = prevWishList.filter(
-        (productItem) => productItem.title !== product.title
-      );
-      return [...newWishList, product];
-    });
-  };
-
-  // order functions
-
-  const completeOrder = () => {
-    const finalDate = new Date().toLocaleDateString("en-GB");
-    const finalTime = new Date().toLocaleTimeString("en-GB");
-    let user: string | null = "";
-    if (loggedInUser) {
-      user = loggedInUser.email;
-    } else {
-      user = "";
-    }
-
-    setOrders((prevOrders) => {
-      const purchasedItems = [...cartProducts];
-      const finalOrder = purchasedItems.map((item) => ({
-        ...item,
-        dateAndTime: [finalDate, finalTime],
-        email: user,
-      }));
-      if (prevOrders == null) {
-        return [...finalOrder];
-      } else {
-        return [...prevOrders, ...finalOrder];
-      }
-    });
-    setCartProducts([]);
-  };
-
-  const clearOrders = () => setOrders([]);
+  const { addToWishList, wishlist } = useWishlist();
 
   return (
     <AppContext.Provider
