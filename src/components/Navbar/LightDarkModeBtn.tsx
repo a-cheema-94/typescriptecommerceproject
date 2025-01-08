@@ -1,13 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 const LightDarkModeBtn = () => {
 
-  // todo => store dark mode in local storage.
-
   const [ darkMode, setDarkMode ] = useState(false);
+
+  useEffect(() => {
+    const theme = localStorage.getItem('theme');
+    if(theme === 'dark') {
+      document.documentElement.classList.add('dark')
+      setDarkMode(true)
+    } else {
+      document.documentElement.classList.remove('dark')
+      setDarkMode(false);
+    }
+  }, [])
+
   const handleDarkMode = () => {
-    document.documentElement.classList.toggle('dark')
+    if(darkMode) {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    } else {
+      localStorage.setItem('theme', 'dark');
+      document.documentElement.classList.add('dark')
+    }
     setDarkMode(!darkMode)
   }
   

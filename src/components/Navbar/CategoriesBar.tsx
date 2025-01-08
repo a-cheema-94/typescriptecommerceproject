@@ -57,8 +57,8 @@ const CategoriesBar = () => {
               </button>
             </Link>
           ))
-        : loadingCategories.map(() => (
-          <button className="w-20 bg-gray-300 animate-pulse rounded ml-3 p-3 bg-origin-border"></button>
+        : loadingCategories.map((_, index) => (
+          <button key={index} className="w-20 bg-gray-300 animate-pulse rounded ml-3 p-3 bg-origin-border"></button>
         ))}
 
       <div
