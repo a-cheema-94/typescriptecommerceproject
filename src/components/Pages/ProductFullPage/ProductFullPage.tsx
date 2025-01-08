@@ -1,12 +1,11 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { formatCurrency } from '../../../utilities/formatCurrency';
-import useLoadingDelay from '../../../hooks/useLoadingDelay';
+import ImageLoader from '../../ImageLoader';
 
 const ProductFullPage = () => {
   const { state } = useLocation();
   const { title, price, ratingsArray, image, rate, description } = state;
   const navigate = useNavigate();
-  const imageDelay = useLoadingDelay();
 
   window.scroll({
     top: 0,
@@ -19,7 +18,7 @@ const ProductFullPage = () => {
     <div className="layout gap-y-3 gap-x-5 py-4 pr-3 dark:bg-slate-300 bg-primary-color">
 
       <div className='image select-none'>
-        {imageDelay ? 'loading ...' : <img src={image} alt="product" className='w-full object-scale-down aspect-square mix-blend-multiply'/>}
+        <ImageLoader src={image} alt="product" className='w-full object-scale-down aspect-square mix-blend-multiply' dimensions={{ height: '100px', width: '100px' }}/>
       </div>
 
       <div className="title flex flex-col gap-y-2">

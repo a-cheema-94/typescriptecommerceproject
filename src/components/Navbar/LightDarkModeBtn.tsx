@@ -3,6 +3,8 @@ import { useState } from "react";
 
 const LightDarkModeBtn = () => {
 
+  // todo => store dark mode in local storage.
+
   const [ darkMode, setDarkMode ] = useState(false);
   const handleDarkMode = () => {
     document.documentElement.classList.toggle('dark')

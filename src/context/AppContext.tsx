@@ -13,9 +13,6 @@ import useAuth from "../hooks/useAuth";
 import useOrders from "../hooks/useOrders";
 import useWishlist from "../hooks/useWishlist";
 
-// todo => Use productsLoading as UI loading state => create loading state components i.e. spinners and pulse components.
-// todo => image loading state & image component see football app.
-
 // Types
 type AppContextProviderProps = {
   children: ReactNode;

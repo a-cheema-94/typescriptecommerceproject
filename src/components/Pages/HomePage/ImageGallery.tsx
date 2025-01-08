@@ -1,10 +1,11 @@
 import { useShop } from "../../../context/AppContext";
 import { useState } from "react";
+import ImageLoader from "../../ImageLoader";
 
 const IMAGE_COUNT = 4;
 
 const ImageGallery = () => {
-  const { products } = useShop();
+  const { products, productsLoading } = useShop();
   const [imageOrder, setImageOrder] = useState(0);
 
   const imageArray = products
@@ -35,12 +36,14 @@ const ImageGallery = () => {
         <a href="#card-products">
           <div className="w-full h-full flex items-center overflow-hidden">
             {imageArray.map((image, index) => (
-              <img
+              <ImageLoader 
                 key={index}
                 src={image}
                 alt="product item"
                 className="w-full h-full block flex-shrink-0 flex-grow-0 object-scale-down imageEffect select-none"
                 style={{ translate: `${-100 * imageOrder}%` }}
+                dimensions={{ height: '200px', width: '200px' }}
+                timeDelay={500}
               />
             ))}
           </div>

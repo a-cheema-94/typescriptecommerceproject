@@ -1,5 +1,6 @@
 import { useShop } from "../../../context/AppContext";
 import { formatCurrency } from "../../../utilities/formatCurrency";
+import ImageLoader from "../../ImageLoader";
 import BackBtn from "../Buttons/BackBtn";
 
 const PreviousOrders = () => {
@@ -33,7 +34,9 @@ const PreviousOrders = () => {
               (item) => item.id === order.id
             );
             if (item == null) return null;
-            const { title, price, image, category } = item;
+            const { title, price, images, category } = item;
+
+            const image = images[0];
 
             return (
               <div
@@ -48,10 +51,12 @@ const PreviousOrders = () => {
                   <p className="text-lg font-semibold">{category}</p>
                 </div>
                 <div className="flex flex-col">
-                  <img
+                  
+                  <ImageLoader 
                     src={image}
-                    alt=""
+                    alt="previous order image"
                     className="w-full aspect-square mix-blend-multiply object-scale-down"
+                    dimensions={{ height: '50px', width: '50px' }}
                   />
                   {order.quantity > 1 && (
                     <p className="self-end font-bold text-sm">

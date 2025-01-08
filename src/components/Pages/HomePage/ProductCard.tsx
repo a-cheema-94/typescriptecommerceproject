@@ -5,6 +5,7 @@ import WishListBtn from "../WishList/WishListBtn";
 import AddToCartBtn from "../Buttons/AddToCartBtn";
 import { ProductItem as ProductCardProps } from "../../../Types/Types";
 import { formatRatings } from "../../../utilities/formatRatings";
+import ImageLoader from "../../ImageLoader";
 
 const ProductCard = (product: ProductCardProps) => {
   const { id, title, price, description, images, rating } = product;
@@ -31,9 +32,11 @@ const ProductCard = (product: ProductCardProps) => {
             description,
           }}
         >
-          <img
+          <ImageLoader 
             src={image}
             className="object-scale-down w-full p-3  mix-blend-multiply hover:cursor-pointer"
+            alt="Product card image"
+            dimensions={{ height: '100px', width: '100px' }}
           />
           <span className="tooltip invisible w-24 bg-neutral-500 text-white font-semibold text-center rounded absolute">
             View product details

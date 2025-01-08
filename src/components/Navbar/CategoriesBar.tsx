@@ -9,6 +9,7 @@ const CategoriesBar = () => {
     resetCategories,
     categoryPressed,
     loggedInUser,
+    productsLoading,
   } = useShop();
   const navigate = useNavigate();
 
@@ -18,6 +19,8 @@ const CategoriesBar = () => {
 
   const handleOrderBtn = () =>
     loggedInUser ? navigate("previousOrders") : navigate("login");
+
+  const loadingCategories = new Array(4).fill('');
 
   return (
     <div className="flex flex-wrap justify-start items-center bg-slate-50 dark:bg-slate-600 py-2 select-none dark:text-white">
@@ -39,20 +42,24 @@ const CategoriesBar = () => {
         </h2>
       </Link>
 
-      {categories.map((category, index) => (
-        <Link to="/" key={index}>
-          <button
-            className={`cursor-pointer hover:bg-black/[.2] rounded ml-3 p-2 bg-origin-border ${
-              categoryPressed === category
-                ? "bg-orange-500 text-white font-semibold"
-                : ""
-            }`}
-            onClick={() => filterByCategory(category)}
-          >
-            {firstLetterCapital(category)}
-          </button>
-        </Link>
-      ))}
+      {!productsLoading
+        ? categories.map((category, index) => (
+            <Link to="/" key={index}>
+              <button
+                className={`cursor-pointer hover:bg-black/[.2] rounded ml-3 p-2 bg-origin-border ${
+                  categoryPressed === category
+                    ? "bg-orange-500 text-white font-semibold"
+                    : ""
+                }`}
+                onClick={() => filterByCategory(category)}
+              >
+                {firstLetterCapital(category)}
+              </button>
+            </Link>
+          ))
+        : loadingCategories.map(() => (
+          <button className="w-20 bg-gray-300 animate-pulse rounded ml-3 p-3 bg-origin-border"></button>
+        ))}
 
       <div
         className="self-center ml-3 checkout-icon relative"

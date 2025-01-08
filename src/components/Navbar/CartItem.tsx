@@ -1,5 +1,6 @@
 import { useShop } from "../../context/AppContext";
 import { formatCurrency } from "../../utilities/formatCurrency";
+import ImageLoader from "../ImageLoader";
 
 type CartItemProps = {
   id: number;
@@ -17,17 +18,21 @@ const CartItem = ({ id, quantity }: CartItemProps) => {
   const cartItem = initialProducts.current.find((item) => item.id === id);
   if (cartItem == null) return null;
 
-  const { image, price } = cartItem;
+  const { images, price } = cartItem;
   const cartPrice = formatCurrency(price);
 
   const quantityBtnClasses =
     "bg-orange-500 hover:bg-orange-700 font-semibold w-1/12 rounded text-white";
 
+  const image = images[0];
+
   return (
     <div className="w-11/12 self-center mb-3 dark:bg-slate-300 py-2 rounded">
-      <img
+      <ImageLoader
         src={image}
         className="aspect-[1/.5] object-scale-down mix-blend-multiply"
+        alt='Cart Item picture'
+        dimensions={{ height: '50px', width: '50px' }}
       />
 
       <div className="flex gap-x-2 justify-center my-2">
