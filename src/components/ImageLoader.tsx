@@ -1,5 +1,5 @@
 import { CSSProperties, useEffect, useState } from "react";
-import ImageLoading from "./ImageLoading";
+import LoadingSpinner from "./LoadingSpinner";
 
 type Props = {
   src: string;
@@ -32,7 +32,7 @@ const ImageLoader = ({ src, className, alt, style, timeDelay=1000, dimensions }:
 
   return (
     <>
-      {imageLoaded ? <img {...imgProps}/> : <ImageLoading dimensions={dimensions} style={style}/>}
+      {imageLoaded ? <img {...imgProps}/> : <LoadingSpinner dimensions={dimensions} style={style}/>}
     </>
   )
 };

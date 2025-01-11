@@ -8,7 +8,7 @@ const AccountSummary = () => {
   const passwordRef: any = useRef();
   const passwordConfirmRef: any = useRef();
   const navigate = useNavigate();
-  const { loggedInUser, updatePassword } = useShop();
+  const { loggedInUser, changePassword } = useShop();
   const [toggleUpdateProfile, setToggleUpdateProfile] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [error, setError] = useState("");
@@ -30,7 +30,7 @@ const AccountSummary = () => {
     try {
       setError("");
       setLoading(true);
-      await updatePassword(passwordRef.current.value);
+      await changePassword(passwordRef.current.value);
       navigate("/");
     } catch {
       setError("Update Failed. Try again.");
@@ -85,7 +85,7 @@ const AccountSummary = () => {
               </label>
 
               <label className="flex flex-col gap-y-2 font-semibold">
-                Password
+                New Password
                 <input
                   type="password"
                   className="rounded bg-secondary-color p-1 border-2 border-slate-300 focus:outline-none select-none focus:border-orange-500 dark:bg-slate-500 "
@@ -95,7 +95,7 @@ const AccountSummary = () => {
               </label>
 
               <label className="flex flex-col gap-y-2 font-semibold">
-                Password Confirm
+                Confirm New Password
                 <input
                   type="password"
                   className="rounded bg-secondary-color p-1 border-2 border-slate-300 focus:outline-none select-none focus:border-orange-500 dark:bg-slate-500 "

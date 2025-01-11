@@ -1,19 +1,20 @@
-import { MutableRefObject, ReactNode } from "react"
+import { MutableRefObject } from "react";
+import { User, UserCredential } from "firebase/auth";
 
 type RatingType = {
-  rate: number
-  count: number
-}
+  rate: number;
+  count: number;
+};
 
 type ProductItem = {
-  id: number
-  title: string
-  price: number
-  description: string
-  category: string
-  images: string[]
-  rating: RatingType
-}
+  id: number;
+  title: string;
+  price: number;
+  description: string;
+  category: string;
+  images: string[];
+  rating: RatingType;
+};
 
 type CartItem = {
   id: number;
@@ -45,27 +46,20 @@ type AppContextTypes = {
   completeOrder: () => void;
   orders: OrderItem[];
   clearOrders: () => void;
-  loggedInUser: firebase.default.User | null;
+  loggedInUser: User | null;
   signUp: (
     email: string,
     password: string
-  ) => Promise<firebase.default.auth.UserCredential>;
+  ) => Promise<UserCredential>;
   login: (
     email: string,
     password: string
-  ) => Promise<firebase.default.auth.UserCredential>;
-  logOut: () => Promise<void>;
+  ) => Promise<UserCredential>;
   resetPassword: (email: string) => Promise<void>;
-  updatePassword: (password: string) => Promise<void> | undefined;
-  signOut: () => Promise<void>;
+  changePassword: (password: string) => Promise<void> | null;
+  logOut: () => Promise<void>;
   deleteUser: () => Promise<void> | undefined;
-  productsLoading: boolean
+  productsLoading: boolean;
 };
 
-export type {
-  AppContextTypes,
-  OrderItem,
-  ProductItem,
-  RatingType,
-  CartItem
-}
+export type { AppContextTypes, OrderItem, ProductItem, RatingType, CartItem };

@@ -47,10 +47,9 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     loggedInUser,
     signUp,
     login,
-    logOut,
     resetPassword,
-    updatePassword,
-    signOut,
+    changePassword,
+    logOut,
     deleteUser,
   } = useAuth();
 
@@ -88,10 +87,9 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
         loggedInUser,
         signUp,
         login,
-        logOut,
         resetPassword,
-        updatePassword,
-        signOut,
+        changePassword,
+        logOut,
         deleteUser,
         productsLoading,
       }}

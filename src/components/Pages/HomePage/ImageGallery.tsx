@@ -43,7 +43,7 @@ const ImageGallery = () => {
                 className="w-full h-full block flex-shrink-0 flex-grow-0 object-scale-down imageEffect select-none"
                 style={{ translate: `${-100 * imageOrder}%` }}
                 dimensions={{ height: '200px', width: '200px' }}
-                timeDelay={500}
+                timeDelay={1000}
               />
             ))}
           </div>

@@ -1,5 +1,5 @@
 
-const ImageLoading = ({ style, dimensions }: { style?: React.CSSProperties | undefined; dimensions: { height: string, width: string }  }) => {
+const LoadingSpinner = ({ style, dimensions }: { style?: React.CSSProperties | undefined; dimensions: { height: string, width: string }  }) => {
   const imageSpinnerClass = 'rounded-full box-border absolute w-full h-full border-transparent border-solid border-8'
 
   return (
@@ -12,4 +12,4 @@ const ImageLoading = ({ style, dimensions }: { style?: React.CSSProperties | und
   )
 }
 
-export default ImageLoading
+export default LoadingSpinner

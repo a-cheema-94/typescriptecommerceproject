@@ -13,9 +13,7 @@ import AccountSummary from "./components/Pages/Authentication/AccountSummary"
 import ForgotPassword from "./components/Pages/Authentication/ForgotPassword"
 import PrivateRoute from "./utilities/PrivateRoute"
 
-// todo => change dependencies around in package.json() => can manually move then npm i.
-// todo => setup password validation i.e. test against a regex expression using regex.test(password);
-// todo => update all firebase methods to module versions i.e. dot notation to functions:
+// todo => 'any' type
 
 function App() {
   return (

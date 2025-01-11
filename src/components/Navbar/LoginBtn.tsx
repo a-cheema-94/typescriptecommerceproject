@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useDetectClickOutside } from "react-detect-click-outside";
 
 const LoginBtn = () => {
-  const { loggedInUser, signOut } = useShop();
+  const { loggedInUser, logOut } = useShop();
   const navigate = useNavigate();
   // local state
   const [showMenu, setShowMenu] = useState(false);
@@ -12,7 +12,7 @@ const LoginBtn = () => {
   const handleSignOut = () => {
     navigate("/");
     setShowMenu(false);
-    signOut();
+    logOut();
   };
 
   const userMenuRef = useDetectClickOutside({

@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import { auth } from "../firebase/firebase";
+import { createUserWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updatePassword, User, UserCredential } from "firebase/auth";
 
 const useAuth = () => {
 
   const [loggedInUser, setLoggedInUser] =
-    useState<firebase.default.User | null>(null);
+    useState<User | null>(null);
   // loggedInUser is set to null when no user is signed in.
 
   useEffect(() => {
     // when mounting the component we set the user:
-    const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       setLoggedInUser(firebaseUser);
     });
 
@@ -18,27 +19,28 @@ const useAuth = () => {
 
   // authentication functions
 
+  // todo => need to add password validation to signUp, login and changePassword functions i.e. test against a regex expression using regex.test(password);
+
   const signUp = (
     email: string,
     password: string
-  ): Promise<firebase.default.auth.UserCredential> =>
-    auth.createUserWithEmailAndPassword(email, password);
+  ): Promise<UserCredential> =>
+    createUserWithEmailAndPassword(auth, email, password);
 
   const login = (
     email: string,
     password: string
-  ): Promise<firebase.default.auth.UserCredential> =>
-    auth.signInWithEmailAndPassword(email, password);
+  ): Promise<UserCredential> =>
+    signInWithEmailAndPassword(auth, email, password);
+    
+  const changePassword = (password: string): Promise<void> | null=>
+    loggedInUser ? updatePassword(loggedInUser, password) : null;
 
-  const logOut = (): Promise<void> => auth.signOut();
 
   const resetPassword = (email: string): Promise<void> =>
-    auth.sendPasswordResetEmail(email);
+    sendPasswordResetEmail(auth, email);
 
-  const updatePassword = (password: string): Promise<void> | undefined =>
-    loggedInUser?.updatePassword(password);
-
-  const signOut = (): Promise<void> => auth.signOut();
+  const logOut = (): Promise<void> => signOut(auth);
 
   const deleteUser = (): Promise<void> | undefined =>
     auth.currentUser?.delete();
@@ -47,10 +49,9 @@ const useAuth = () => {
     loggedInUser,
     signUp,
     login,
-    logOut,
     resetPassword,
-    updatePassword,
-    signOut,
+    changePassword,
+    logOut,
     deleteUser,
   };
 };
