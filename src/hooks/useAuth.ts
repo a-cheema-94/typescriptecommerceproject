@@ -19,8 +19,6 @@ const useAuth = () => {
 
   // authentication functions
 
-  // todo => need to add password validation to signUp, login and changePassword functions i.e. test against a regex expression using regex.test(password);
-
   const signUp = (
     email: string,
     password: string

@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useShop } from "../../../context/AppContext";
-import { useRef, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
+import PasswordValidationUI from "./PasswordValidationUI";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -11,8 +12,10 @@ const SignUp = () => {
   // local state
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [passwordState, setPasswordState] = useState<string>("");
+  const [settingPassword, setSettingPassword] = useState(false);
 
-  const handleSignUp = async (e: any) => {
+  const handleSignUp = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
@@ -81,8 +84,17 @@ const SignUp = () => {
               className="rounded bg-secondary-color p-1 border-2 border-slate-300 focus:outline-none select-none focus:border-orange-500 dark:bg-slate-500 "
               required
               ref={passwordRef}
+              // onFocus={() => setSettingPassword(true)}
+              // onBlur={() => setSettingPassword(false)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+
+                setSettingPassword(prev => !prev)
+                setPasswordState(e.target.value)
+              }
+              }
             />
           </label>
+          {settingPassword && <PasswordValidationUI password={passwordState} />}
 
           <label className="flex flex-col gap-y-2 font-semibold">
             Confirm Password

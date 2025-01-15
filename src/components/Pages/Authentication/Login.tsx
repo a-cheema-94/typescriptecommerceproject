@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useShop } from "../../../context/AppContext";
-import { useRef, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ const Login = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = async (e: any) => {
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {

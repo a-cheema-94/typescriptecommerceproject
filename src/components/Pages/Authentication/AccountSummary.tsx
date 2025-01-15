@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { useShop } from "../../../context/AppContext";
 import DeleteBtnModal from "./DeleteBtnModal";
 import { useNavigate } from "react-router-dom";
@@ -20,7 +20,7 @@ const AccountSummary = () => {
     setOpenDeleteModal(true);
   };
 
-  const handleUpdateProfileBtn = async (e: any) => {
+  const handleUpdateProfileBtn = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {

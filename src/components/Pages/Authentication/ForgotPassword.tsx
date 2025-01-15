@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useShop } from "../../../context/AppContext";
-import { useRef, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 
 const ForgotPassword = () => {
   const { resetPassword } = useShop();
@@ -10,7 +10,7 @@ const ForgotPassword = () => {
   const [successMsg, setSuccessMsg] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleForgotPassword = async (e: any) => {
+  const handleForgotPassword = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
