@@ -4,10 +4,11 @@ type Props = {
   password: string;
 };
 
-// todo => sync passwordStatus data to display in UI and fix onChange issue of flickering.
+// todo => sync passwordStatus data to display in UI.
 
 const PasswordValidationUI = ({ password }: Props) => {
 
+  
   const passwordStatus = verifyPassword(password);
 
   const samplePasswordValidationObject = {
@@ -18,6 +19,7 @@ const PasswordValidationUI = ({ password }: Props) => {
     containsUppercaseLetter: true,
     containsNumericCharacter: true,
     containsNonAlphanumericCharacter: true,
+    test: { test: 'test' }
   };
 
   return (
@@ -25,13 +27,13 @@ const PasswordValidationUI = ({ password }: Props) => {
       <h3>Password Validation</h3>
       <p
         className={
-          passwordStatus?.containsUppercaseLetter
+          passwordStatus?.containsUppercaseLetter === true
             ? "text-green-600"
             : "text-red-600"
         }
       >
         contains uppercase letters
-        {passwordStatus?.containsUppercaseLetter ? (
+        {passwordStatus?.containsUppercaseLetter === true ? (
           <span>✔</span>
         ) : (
           <span>❌</span>

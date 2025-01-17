@@ -12,7 +12,7 @@ const verifyPassword = (password: string) => {
 
   useEffect(() => {
     (async () => updatePasswordStatus())()
-  }, [])
+  }, [password])
 
   return passwordStatus;
 };

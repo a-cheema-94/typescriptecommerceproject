@@ -84,13 +84,10 @@ const SignUp = () => {
               className="rounded bg-secondary-color p-1 border-2 border-slate-300 focus:outline-none select-none focus:border-orange-500 dark:bg-slate-500 "
               required
               ref={passwordRef}
-              // onFocus={() => setSettingPassword(true)}
-              // onBlur={() => setSettingPassword(false)}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-
-                setSettingPassword(prev => !prev)
+              onFocus={() => setSettingPassword(true)}
+              onBlur={() => setSettingPassword(false)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setPasswordState(e.target.value)
-              }
               }
             />
           </label>
