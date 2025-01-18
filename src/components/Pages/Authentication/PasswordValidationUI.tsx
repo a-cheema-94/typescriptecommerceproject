@@ -39,7 +39,7 @@ const PasswordValidationUI = ({ password }: Props) => {
 
   return (
     <div>
-      <h3>Password Validation</h3>
+      <h3 className="underline">Password Validation: </h3>
       {passwordCategories.map((category, index) => (
         <PasswordValidationCategory category={category} key={index}/>
       ))}

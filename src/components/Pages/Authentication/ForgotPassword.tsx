@@ -4,7 +4,7 @@ import { FormEvent, useRef, useState } from "react";
 
 const ForgotPassword = () => {
   const { resetPassword } = useShop();
-  const emailRef: any = useRef();
+  const emailRef = useRef<HTMLInputElement | null>(null);
   // local state
   const [error, setError] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
@@ -17,7 +17,7 @@ const ForgotPassword = () => {
       setError("");
       setLoading(true);
       setSuccessMsg("");
-      await resetPassword(emailRef.current.value);
+      if(emailRef.current) await resetPassword(emailRef.current.value);
       setSuccessMsg(
         "Verification email sent, check your inbox for further instructions."
       );

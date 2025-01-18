@@ -5,8 +5,8 @@ import { FormEvent, useRef, useState } from "react";
 const Login = () => {
   const navigate = useNavigate();
   const { login } = useShop();
-  const emailRef: any = useRef();
-  const passwordRef: any = useRef();
+  const emailRef = useRef<HTMLInputElement | null>(null);
+  const passwordRef = useRef<HTMLInputElement | null>(null);
   // local state
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -17,7 +17,7 @@ const Login = () => {
     try {
       setError("");
       setLoading(true);
-      await login(emailRef.current.value, passwordRef.current.value);
+      if(emailRef.current && passwordRef.current) await login(emailRef.current.value, passwordRef.current.value);
       navigate("/");
     } catch {
       setError("Login Failed");

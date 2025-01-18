@@ -2,17 +2,21 @@ import { FormEvent, useRef, useState } from "react";
 import { useShop } from "../../../context/AppContext";
 import DeleteBtnModal from "./DeleteBtnModal";
 import { useNavigate } from "react-router-dom";
+import PasswordValidationUI from "./PasswordValidationUI";
 
 const AccountSummary = () => {
-  const emailRef: any = useRef();
-  const passwordRef: any = useRef();
-  const passwordConfirmRef: any = useRef();
+  const emailRef = useRef<HTMLInputElement | null>(null);
+  const passwordRef = useRef<HTMLInputElement | null>(null);
+  const passwordConfirmRef = useRef<HTMLInputElement | null>(null);
   const navigate = useNavigate();
   const { loggedInUser, changePassword } = useShop();
+  // local state
   const [toggleUpdateProfile, setToggleUpdateProfile] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [newPasswordState, setNewPasswordState] = useState<string>("");
+  const [settingNewPassword, setSettingNewPassword] = useState<boolean>(false);
 
   const closeDeleteModal = () => setOpenDeleteModal(false);
 
@@ -23,16 +27,17 @@ const AccountSummary = () => {
   const handleUpdateProfileBtn = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
+    if (passwordRef.current?.value !== passwordConfirmRef.current?.value) {
       return setError("The passwords do not match!");
     }
 
     try {
       setError("");
       setLoading(true);
-      await changePassword(passwordRef.current.value);
+      if(passwordRef.current) await changePassword(passwordRef.current.value);
       navigate("/");
-    } catch {
+    } catch(error) {
+      console.error(error)
       setError("Update Failed. Try again.");
     }
     setLoading(false);
@@ -91,8 +96,14 @@ const AccountSummary = () => {
                   className="rounded bg-secondary-color p-1 border-2 border-slate-300 focus:outline-none select-none focus:border-orange-500 dark:bg-slate-500 "
                   required
                   ref={passwordRef}
+                  onFocus={() => setSettingNewPassword(true)}
+                  onBlur={() => setSettingNewPassword(false)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setNewPasswordState(e.target.value)
+              }
                 />
               </label>
+              {settingNewPassword && <PasswordValidationUI password={newPasswordState} />}
 
               <label className="flex flex-col gap-y-2 font-semibold">
                 Confirm New Password

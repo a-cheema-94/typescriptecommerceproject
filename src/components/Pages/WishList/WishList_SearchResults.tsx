@@ -2,6 +2,7 @@ import { useLocation } from "react-router-dom";
 import { useShop } from "../../../context/AppContext";
 import ProductCard from "../HomePage/ProductCard";
 import BackBtn from "../Buttons/BackBtn";
+import { ProductItem } from "../../../Types/Types";
 
 const WishList_SearchResults = () => {
   const { wishlist } = useShop();
@@ -21,7 +22,7 @@ const WishList_SearchResults = () => {
           <h1 className="text-2xl mb-3">Search Results:</h1>
 
           <div className="product-grid gap-3">
-            {filteredProducts.map((item: any, index: any) => (
+            {filteredProducts.map((item: ProductItem, index: number) => (
               <ProductCard key={index} {...item} />
             ))}
           </div>
