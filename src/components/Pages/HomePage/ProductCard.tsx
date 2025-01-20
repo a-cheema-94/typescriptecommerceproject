@@ -27,7 +27,7 @@ const ProductCard = (product: ProductCardProps) => {
             title,
             price,
             ratingsArray,
-            image,
+            images,
             rate,
             description,
           }}

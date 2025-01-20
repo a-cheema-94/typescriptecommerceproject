@@ -4,8 +4,11 @@ import ImageLoader from '../../ImageLoader';
 
 const ProductFullPage = () => {
   const { state } = useLocation();
-  const { title, price, ratingsArray, image, rate, description } = state;
+  const { title, price, ratingsArray, images, rate, description } = state;
   const navigate = useNavigate();
+
+  const image = images[0];
+  console.log(image)
 
   window.scroll({
     top: 0,

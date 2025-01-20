@@ -3,28 +3,16 @@ import { useShop } from "../../context/AppContext";
 import { Link, useNavigate } from "react-router-dom";
 import SearchBtn from "./SearchBtn";
 import { formatRatings } from "../../utilities/formatRatings";
+import { ProductItem } from "../../Types/Types";
 
-type RatingType = {
-  rate: number;
-  count: number;
-};
-
-type FilteredProductProps = {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: string;
-  image: string;
-  rating: RatingType;
-};
+// todo => sort out ratings.
 
 const SearchBar = () => {
   const { products } = useShop();
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
 
-  const filteredProducts = products.filter((product) => {
+  const filteredProducts = products.filter((product: ProductItem) => {
     return product.title.toLowerCase().includes(query.toLowerCase());
   });
 
@@ -64,12 +52,12 @@ const SearchBar = () => {
           {filteredProducts.map(
             ({
               id,
-              title,
-              price,
               description,
-              image,
+              images,
+              price,
               rating,
-            }: FilteredProductProps) => {
+              title
+            }: ProductItem) => {
               const rate = rating.rate;
               const ratingsArray = formatRatings(rate);
 
@@ -80,7 +68,7 @@ const SearchBar = () => {
                     title,
                     price,
                     ratingsArray,
-                    image,
+                    images,
                     rate,
                     description,
                   }}

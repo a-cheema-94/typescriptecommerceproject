@@ -13,7 +13,7 @@ type ProductItem = {
   description: string;
   category: string;
   images: string[];
-  rating: RatingType;
+  rating: number;
 };
 
 type CartItem = {
