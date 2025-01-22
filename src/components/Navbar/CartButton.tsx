@@ -11,6 +11,7 @@ const CartButton = ({ openCart }: CartButtonProps) => {
     <button
       className="w-7 h-7 hover:bg-slate-300 rounded-full dark:hover:text-black mr-3 dark:text-white relative"
       onClick={openCart}
+      aria-label="open cart"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

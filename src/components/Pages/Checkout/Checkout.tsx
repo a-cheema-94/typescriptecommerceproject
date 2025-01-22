@@ -27,6 +27,7 @@ const Checkout = () => {
       className={`checkout-page bg-secondary-color dark:bg-slate-900 ${
         isCartEmpty ? "h-screen" : "h-full"
       } flex flex-col gap-y-4`}
+      data-testid="checkout page"
     >
       <div className="flex justify-between items-center m-6">
         <BackBtn />

@@ -19,7 +19,7 @@ const CartSideBar = ({ cartWidth, closeCart }: CartSideBarProps) => {
 
   return (
     <div
-      className={`flex flex-col gap-y-3 h-screen fixed z-20 ${cartWidth} bg-secondary-color dark:bg-slate-900 right-0 top-0 overflow-y-auto`}
+      className={`flex flex-col gap-y-3 h-screen fixed z-20 ${cartWidth} bg-secondary-color dark:bg-slate-900 right-0 top-0 overflow-y-auto`} data-testid="Cart Side Bar"
     >
       <button
         className="bg-orange-500 dark:text-white dark:ring-white ring-black ring-1 rounded-full w-fit px-2 m-2 hover:bg-orange-700"

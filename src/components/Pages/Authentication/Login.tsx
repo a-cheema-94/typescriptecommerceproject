@@ -56,6 +56,7 @@ const Login = () => {
           id="sign-in"
           className="flex flex-col gap-y-4 m-4"
           onSubmit={handleLogin}
+          title="sign in"
         >
           <label className="flex flex-col gap-y-2 font-semibold">
             Email

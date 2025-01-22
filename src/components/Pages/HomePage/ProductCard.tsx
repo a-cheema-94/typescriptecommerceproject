@@ -12,13 +12,13 @@ const ProductCard = (product: ProductCardProps) => {
 
   const { addToWishList } = useShop();
 
-  const { rate } = rating;
-  const ratingsArray = formatRatings(rating.rate);
+  const ratingsArray = formatRatings(rating);
+
 
   const image = images[0];
 
   return (
-    <div className="border-2 border-neutral-200 flex flex-col justify-center rounded px-4 py-8 bg-secondary-color dark:bg-slate-300 gap-4 h-full">
+    <div className="border-2 border-neutral-200 flex flex-col justify-center rounded px-4 py-8 bg-secondary-color dark:bg-slate-300 gap-4 h-full" data-testid="Product Card">
       <div className="relative image-container w-8/12 sm:w-full self-center">
         <Link
           to="/productPage"
@@ -28,7 +28,7 @@ const ProductCard = (product: ProductCardProps) => {
             price,
             ratingsArray,
             images,
-            rate,
+            rating,
             description,
           }}
         >

@@ -5,8 +5,6 @@ import SearchBtn from "./SearchBtn";
 import { formatRatings } from "../../utilities/formatRatings";
 import { ProductItem } from "../../Types/Types";
 
-// todo => sort out ratings.
-
 const SearchBar = () => {
   const { products } = useShop();
   const [query, setQuery] = useState("");
@@ -58,8 +56,7 @@ const SearchBar = () => {
               rating,
               title
             }: ProductItem) => {
-              const rate = rating.rate;
-              const ratingsArray = formatRatings(rate);
+              const ratingsArray = formatRatings(rating);
 
               return (
                 <Link
@@ -69,7 +66,7 @@ const SearchBar = () => {
                     price,
                     ratingsArray,
                     images,
-                    rate,
+                    rating,
                     description,
                   }}
                   key={id}

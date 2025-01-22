@@ -4,18 +4,15 @@ import ImageLoader from '../../ImageLoader';
 
 const ProductFullPage = () => {
   const { state } = useLocation();
-  const { title, price, ratingsArray, images, rate, description } = state;
+  const { title, price, ratingsArray, images, rating, description } = state;
   const navigate = useNavigate();
 
   const image = images[0];
-  console.log(image)
-
   window.scroll({
     top: 0,
     left: 0,
     behavior: 'smooth',
   })
-
 
   return (
     <div className="layout gap-y-3 gap-x-5 py-4 pr-3 dark:bg-slate-300 bg-primary-color">
@@ -34,7 +31,7 @@ const ProductFullPage = () => {
               </svg>
             ))
           }
-          <span className="bg-emerald-100 text-emerald-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded ml-3">{rate}</span>
+          <span className="bg-emerald-100 text-emerald-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded ml-3">{rating}</span>
         </div>
       </div>
 
@@ -42,9 +39,7 @@ const ProductFullPage = () => {
 
         <p className='mb-5'><strong>Description:</strong> {description}</p>
 
-        <div className='container flex gap-2 flex-wrap'>
-          {/* <button className="w-auto bg-orange-500 hover:bg-orange-700 rounded p-3 font-semibold text-white hover:cursor-pointer select-none">Add to Cart</button> */}
-          
+        <div className='container flex gap-2 flex-wrap'>          
           <button className="w-auto bg-orange-500 hover:bg-orange-700 rounded p-3 font-semibold text-white hover:cursor-pointer select-none" onClick={() => navigate('/')}>Back to Products</button>
           
         </div>

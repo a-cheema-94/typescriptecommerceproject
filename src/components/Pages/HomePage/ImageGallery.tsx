@@ -1,6 +1,7 @@
 import { useShop } from "../../../context/AppContext";
 import { useState } from "react";
 import ImageLoader from "../../ImageLoader";
+import { ProductItem } from "../../../Types/Types";
 
 const IMAGE_COUNT = 4;
 
@@ -9,7 +10,11 @@ const ImageGallery = () => {
   const [imageOrder, setImageOrder] = useState(0);
 
   const imageArray = products
-    .map((product) => product.images[0])
+    .map((product: ProductItem) => {
+      const productImage = product.images[0];
+      const productImageAltText = product.title;
+      return { productImage, productImageAltText }
+    })
     .slice(0, IMAGE_COUNT);
 
   const nextImage = () => {
@@ -30,16 +35,16 @@ const ImageGallery = () => {
     "block absolute bg-transparent inset-y-0 border-none hover:bg-black/[.2] hover:text-white";
 
   return (
-    <div className="w-3/4 my-5 imageGalleryContainer">
-      <div className="w-full h-full relative bg-orange-400 dark:opacity-80 rounded-2xl px-14 py-5">
+    <section className="w-3/4 my-5 imageGalleryContainer" >
+      <div className="w-full h-full relative bg-orange-400 dark:opacity-80 rounded-2xl px-14 py-5" data-testid="image gallery">
         {/* Images */}
         <a href="#card-products">
           <div className="w-full h-full flex items-center overflow-hidden">
-            {imageArray.map((image, index) => (
+            {imageArray.map(({ productImage, productImageAltText }, index) => (
               <ImageLoader 
                 key={index}
-                src={image}
-                alt="product item"
+                src={productImage}
+                alt={productImageAltText}
                 className="w-full h-full block flex-shrink-0 flex-grow-0 object-scale-down imageEffect select-none"
                 style={{ translate: `${-100 * imageOrder}%` }}
                 dimensions={{ height: '200px', width: '200px' }}
@@ -53,6 +58,8 @@ const ImageGallery = () => {
         <button
           className={`${arrowBtnClass} left-0 rounded-l-2xl`}
           onClick={prevImage}
+          role="button"
+          aria-label="Previous Image"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -73,6 +80,8 @@ const ImageGallery = () => {
         <button
           className={`${arrowBtnClass} right-0 rounded-r-2xl`}
           onClick={nextImage}
+          role="button"
+          aria-label="Next Image"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -90,7 +99,7 @@ const ImageGallery = () => {
           </svg>
         </button>
       </div>
-    </div>
+    </section>
   );
 };
 

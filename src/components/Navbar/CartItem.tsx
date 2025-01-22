@@ -18,7 +18,7 @@ const CartItem = ({ id, quantity }: CartItemProps) => {
   const cartItem = initialProducts.current.find((item) => item.id === id);
   if (cartItem == null) return null;
 
-  const { images, price } = cartItem;
+  const { images, price, title } = cartItem;
   const cartPrice = formatCurrency(price);
 
   const quantityBtnClasses =
@@ -31,7 +31,7 @@ const CartItem = ({ id, quantity }: CartItemProps) => {
       <ImageLoader
         src={image}
         className="aspect-[1/.5] object-scale-down mix-blend-multiply"
-        alt='Cart Item picture'
+        alt={title}
         dimensions={{ height: '50px', width: '50px' }}
       />
 

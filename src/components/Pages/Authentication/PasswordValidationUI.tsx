@@ -5,12 +5,38 @@ type Props = {
   password: string;
 };
 
-// todo => refactor password validation functions and component.
+const PasswordValidationCategory = ({
+  category,
+}: {
+  category: {
+    editedCategory: string;
+    validationValue: boolean;
+  };
+}) => {
+  return (
+    <p
+    className={
+      category.validationValue === true
+        ? "text-green-600"
+        : "text-red-600"
+    }
+  >
+    {category.editedCategory}
+    {category.validationValue === true ? (
+      <span>✔</span>
+    ) : (
+      <span>❌</span>
+    )}
+  </p>
+  )
+  
+};
 
 const PasswordValidationUI = ({ password }: Props) => {
   const passwordStatus: PasswordValidationStatus | null =
     verifyPassword(password);
 
+  // this function is used to edit the object fields from lower case to normal, along with their associated values, to be rendered in UI.
   const getPasswordValidationCategories = (
     statusObject: PasswordValidationStatus | null
   ) => {
@@ -19,7 +45,7 @@ const PasswordValidationUI = ({ password }: Props) => {
     const mappedKeys = validationKeys.map((passwordCategory, index) => {
       let editedCategory = passwordCategory
         .replace(/([a-z])([A-Z])/g, "$1" + " " + "$2")
-        // replace all instances of a lower case character directly followed by an upper case character with the lower case followed by a space and then the upper case. $i references the ith character.
+        // replace all instances of a lower case character directly followed by an upper case character with the lower case followed by a space and then the upper case. $i references the ith character set.
         .toLowerCase();
       const validationValue = validationValues[index];
       return { editedCategory, validationValue };
@@ -47,31 +73,5 @@ const PasswordValidationUI = ({ password }: Props) => {
   );
 };
 
-const PasswordValidationCategory = ({
-  category,
-}: {
-  category: {
-    editedCategory: string;
-    validationValue: boolean;
-  };
-}) => {
-  return (
-    <p
-    className={
-      category.validationValue === true
-        ? "text-green-600"
-        : "text-red-600"
-    }
-  >
-    {category.editedCategory}
-    {category.validationValue === true ? (
-      <span>✔</span>
-    ) : (
-      <span>❌</span>
-    )}
-  </p>
-  )
-  
-};
 
 export default PasswordValidationUI;
