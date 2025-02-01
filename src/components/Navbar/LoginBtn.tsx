@@ -30,7 +30,7 @@ const LoginBtn = () => {
         </button>
       ) : (
         <div className="relative cursor-pointer hover:bg-slate-300 rounded-full dark:text-white dark:hover:text-black">
-          <button onClick={() => setShowMenu(!showMenu)}>
+          <button onClick={() => setShowMenu(!showMenu)} aria-label="Logged In User">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

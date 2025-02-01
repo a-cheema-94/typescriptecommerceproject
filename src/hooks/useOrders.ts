@@ -1,9 +1,10 @@
 import { Dispatch, SetStateAction } from "react";
 import { CartItem, OrderItem } from "../Types/Types";
 import useLocalStorage from "./useLocalStorage";
+import { User } from 'firebase/auth'
 
 const useOrders = (
-  loggedInUser: firebase.default.User | null,
+  loggedInUser: User | null,
   cartProducts: CartItem[],
   setCartProducts: Dispatch<SetStateAction<CartItem[]>>
 ) => {

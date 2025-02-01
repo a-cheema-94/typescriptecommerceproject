@@ -17,7 +17,9 @@ const Login = () => {
     try {
       setError("");
       setLoading(true);
-      if(emailRef.current && passwordRef.current) await login(emailRef.current.value, passwordRef.current.value);
+      if(emailRef.current && passwordRef.current) {
+        const user = await login(emailRef.current.value, passwordRef.current.value);
+      }
       navigate("/");
     } catch {
       setError("Login Failed");

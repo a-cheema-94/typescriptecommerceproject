@@ -61,7 +61,7 @@ const CategoriesBar = () => {
           <button key={index} className="w-20 bg-gray-300 animate-pulse rounded ml-3 p-3 bg-origin-border"></button>
         ))}
 
-      <div
+      <button
         className="self-center ml-3 checkout-icon relative"
         onClick={() => navigate("/checkout")}
       >
@@ -77,7 +77,7 @@ const CategoriesBar = () => {
         <span className="tooltip invisible w-24 bg-neutral-500 text-white font-semibold text-center rounded absolute">
           Checkout
         </span>
-      </div>
+      </button>
 
       <div
         className="self-center ml-5 checkout-icon relative"

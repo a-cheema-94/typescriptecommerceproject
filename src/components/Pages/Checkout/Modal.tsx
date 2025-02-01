@@ -24,6 +24,7 @@ const Modal = ({ open, close }: ModalPropTypes) => {
           <button
             onClick={handleConfirmPurchase}
             className="w-24 bg-orange-500 hover:bg-orange-700 rounded p-3 font-semibold text-white cursor-pointer select-none"
+            aria-label="Buy"
           >
             Buy
           </button>
