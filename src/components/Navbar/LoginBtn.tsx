@@ -20,7 +20,7 @@ const LoginBtn = () => {
   });
 
   return (
-    <div ref={userMenuRef}>
+    <div ref={userMenuRef} data-testid = 'login navbar button'>
       {!loggedInUser ? (
         <button
           className="bg-orange-500 hover:bg-orange-700 cursor-pointer text-white font-bold rounded-full py-2 px-6 select-none"
