@@ -18,8 +18,6 @@ vi.mock("firebase/auth", async () => {
   };
 });
 
-// todo => finish README file.
-
 beforeEach(() => {
   global.fetch = vi.fn(
     async (): Promise<Response> =>
