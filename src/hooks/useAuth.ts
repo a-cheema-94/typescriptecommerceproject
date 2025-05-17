@@ -19,7 +19,6 @@ const useAuth = () => {
   useEffect(() => {
     // when mounting the component we set the user:
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      console.log('called with user: ', firebaseUser);
       // prevent unnecessary re-renders => check whether user has actually changed from previous user, otherwise no need for new state update.
       setLoggedInUser((prevUser) => {
         if (prevUser?.uid !== firebaseUser?.uid) return firebaseUser;

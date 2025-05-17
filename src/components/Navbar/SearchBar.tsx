@@ -45,7 +45,7 @@ const SearchBar = () => {
         )}
       </div>
 
-      {query ? (
+      {query && (
         <div className="bg-primary-color dark:bg-slate-500 dark:text-white absolute top-15 text-start w-full p-3 rounded max-h-52 overflow-auto z-40 border-2 border-gray-300">
           {filteredProducts.map(
             ({
@@ -84,8 +84,6 @@ const SearchBar = () => {
             }
           )}
         </div>
-      ) : (
-        ""
       )}
     </div>
   );

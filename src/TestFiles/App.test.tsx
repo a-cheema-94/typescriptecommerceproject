@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import App from "../App";
 import {
   onAuthStateChanged,
@@ -27,7 +27,7 @@ beforeEach(() => {
   );
 
   vi.mocked(onAuthStateChanged).mockImplementation(
-    (auth: any, callback: any): Unsubscribe => {
+    (_: any, callback: any): Unsubscribe => {
       callback(null);
       return vi.fn();
     }
@@ -135,7 +135,7 @@ test("render full product info page after clicking product card", async () => {
 test("user purchasing item", async () => {
   // mock logged in user
   vi.mocked(onAuthStateChanged).mockImplementationOnce(
-    (auth: any, callback: any): Unsubscribe => {
+    (_: any, callback: any): Unsubscribe => {
       callback(mockUser as User);
       return vi.fn();
     }

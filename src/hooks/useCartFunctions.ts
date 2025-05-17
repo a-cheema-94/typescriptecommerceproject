@@ -53,7 +53,7 @@ const useCartFunctions = (initialProducts: MutableRefObject<ProductItem[]>) => {
 
   const getSubTotal = () => {
     let pricesArr: number[] = [];
-    cartProducts.map((product, index) => {
+    cartProducts.forEach((product, index) => {
       const price =
         (initialProducts.current.find((item) => item.id === product.id)
           ?.price || 0) * product.quantity;

@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useShop } from "../../../context/AppContext";
-import { FormEvent, MutableRefObject, useRef, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import PasswordValidationUI from "./PasswordValidationUI";
 
 const SignUp = () => {

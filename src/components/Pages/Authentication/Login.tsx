@@ -18,7 +18,7 @@ const Login = () => {
       setError("");
       setLoading(true);
       if(emailRef.current && passwordRef.current) {
-        const user = await login(emailRef.current.value, passwordRef.current.value);
+        await login(emailRef.current.value, passwordRef.current.value);
       }
       navigate("/");
     } catch {

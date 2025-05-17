@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { ProductItem } from "../Types/Types";
 
 const useProducts = () => {
-  const [productsLoading, setProductsLoading] = useState(false);
+  const [productsLoading, setProductsLoading] = useState<boolean>(false);
   const [products, setProducts] = useState<ProductItem[]>([]);
 
   let isMounted = useRef(true);
@@ -18,7 +18,6 @@ const useProducts = () => {
         const productRes = await fetch(
           "https://dummyjson.com/products?limit=30&skip=82&select=id,title,description,category,price,rating,images"
         );
-        console.log("fetched products");
         const productData = await productRes.json();
         initialProducts.current = productData.products;
         setProducts(initialProducts.current);

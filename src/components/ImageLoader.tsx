@@ -13,7 +13,7 @@ type Props = {
   }
 };
 
-const ImageLoader = ({ src, className, alt, style, timeDelay=1000, dimensions }: Props) => {
+const ImageLoader = ({ src, className, alt, style, timeDelay=500, dimensions }: Props) => {
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
 
   const delay = (time: number) =>

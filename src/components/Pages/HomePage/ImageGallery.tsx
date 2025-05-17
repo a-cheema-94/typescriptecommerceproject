@@ -6,7 +6,7 @@ import { ProductItem } from "../../../Types/Types";
 const IMAGE_COUNT = 4;
 
 const ImageGallery = () => {
-  const { products, productsLoading } = useShop();
+  const { products } = useShop();
   const [imageOrder, setImageOrder] = useState(0);
 
   const imageArray = products
@@ -48,7 +48,6 @@ const ImageGallery = () => {
                 className="w-full h-full block flex-shrink-0 flex-grow-0 object-scale-down imageEffect select-none"
                 style={{ translate: `${-100 * imageOrder}%` }}
                 dimensions={{ height: '200px', width: '200px' }}
-                timeDelay={1000}
               />
             ))}
           </div>
