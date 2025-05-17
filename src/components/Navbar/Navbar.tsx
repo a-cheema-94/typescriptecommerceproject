@@ -27,7 +27,7 @@ const Navbar = () => {
     >
       {/* Logo */}
       <Link to='/'>
-        <img className="w-32 cursor-pointer" src="../imgs/FullLogo_Transparent.png" alt="" />
+        <img className="w-32 cursor-pointer" src="/FullLogo_Transparent.png" alt="" />
       </Link>
 
       <SearchBar />
